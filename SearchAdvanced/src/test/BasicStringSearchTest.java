@@ -52,22 +52,22 @@ public class BasicStringSearchTest
 			List <Object[]>  parameters= new ArrayList<Object[]>();
 
 			parameters.add(new Object[]{"VerySmallFile",
-					"data/basicSearch/basic_verysmall_input.txt",
+					"test_data/basicSearch/basic_verysmall_input.txt",
 					"webservers",
-					"data/basicSearch/basic_verysmall_actualOutput.txt",
-			"data/basicSearch/basic_verysmall_expectedOutput.txt"});
+					"test_data/basicSearch/basic_verysmall_actualOutput.txt",
+			"test_data/basicSearch/basic_verysmall_expectedOutput.txt"});
 
 			parameters.add(new Object[]{"MediumFile",
-					"data/basicSearch/basic_medium_input.txt",
+					"test_data/basicSearch/basic_medium_input.txt",
 					"webservers",
-					"data/basicSearch/basic_medium_actualOutput.txt",
-			"data/basicSearch/basic_medium_expectedOutput.txt"});
+					"test_data/basicSearch/basic_medium_actualOutput.txt",
+			"test_data/basicSearch/basic_medium_expectedOutput.txt"});
 
 			parameters.add(new Object[]{"LargeFile",
-					"data/basicSearch/basic_large_input.txt",
+					"test_data/basicSearch/basic_large_input.txt",
 					"webservers",
-					"data/basicSearch/basic_large_actualOutput.txt",
-			"data/basicSearch/basic_large_expectedOutput.txt"});
+					"test_data/basicSearch/basic_large_actualOutput.txt",
+			"test_data/basicSearch/basic_large_expectedOutput.txt"});
 
 
 
@@ -160,7 +160,7 @@ public class BasicStringSearchTest
 		@Test
 		public void testBasicStringSearch_InvalidSearchWord() throws IOException
 		{
-			String filePath ="data/basicSearch/basic_verysmall_input.txt";
+			String filePath ="test_data/basicSearch/basic_verysmall_input.txt";
 			String searchWord = "   ";
 
 			try {
