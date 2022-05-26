@@ -1,0 +1,52 @@
+<project name="search" default="run" basedir=".">
+
+	<property name="src" location="src" />
+	<property name="config" location="config" />
+	<property name="build" location="build" />
+	<property name="SearchJar" location="build/lib/search.jar" />
+
+	<target name="clean">
+		<echo message="Deleting directory : ${build}" />
+		<delete dir="${build}" />
+	</target>
+
+	<target name="init">
+		<echo message="Setting up build...." />
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/lib" />
+		<mkdir dir="${build}/classes" />
+		<mkdir dir="${build}/bin" />
+		<copy file="search.sh" todir="${build}/bin" />
+	</target>
+
+	<target name="compile">
+		<echo message="Compiling java files ...." />
+		<javac includeantruntime="false" srcdir="${src}" destdir="${build}/classes" includes="com/**">
+			<classpath>
+				<fileset dir="${build}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jarCreation">
+		<echo message="Creating jar with compiled class files ...." />
+		<jar destfile="${SearchJar}">
+			<fileset dir="${build}/classes" includes="**/*" />
+			<manifest>
+				<attribute name="Main-Class" value="com.driver.Client" />
+				<attribute name="Class-Path" value="${build}/lib" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run">
+		<antcall target="clean" />
+		<antcall target="init" />
+		<antcall target="compile" />
+		<antcall target="jarCreation" />
+	</target>
+
+
+</project>
