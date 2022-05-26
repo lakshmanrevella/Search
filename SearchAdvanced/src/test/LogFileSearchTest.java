@@ -50,22 +50,22 @@ public class LogFileSearchTest
 			List <Object[]>  parameters= new ArrayList<Object[]>();
 
 			parameters.add(new Object[]{"VerySmallFile",
-					"data/logSearch/logFile_verysmall_input.log",
+					"test_data/logSearch/logFile_verysmall_input.log",
 					"[42]",
-					"data/logSearch/logFile_verysmall_actualOutput.txt",
-			"data/logSearch/logFile_verysmall_expectedOutput.txt"});
+					"test_data/logSearch/logFile_verysmall_actualOutput.txt",
+			"test_data/logSearch/logFile_verysmall_expectedOutput.txt"});
 
 			parameters.add(new Object[]{"MediumFile",
-					"data/logSearch/logFile_medium_input.log",
+					"test_data/logSearch/logFile_medium_input.log",
 					"[165]",
-					"data/logSearch/logFile_medium_actualOutput.txt",
-			"data/logSearch/logFile_medium_expectedOutput.txt"});
+					"test_data/logSearch/logFile_medium_actualOutput.txt",
+			"test_data/logSearch/logFile_medium_expectedOutput.txt"});
 
 			parameters.add(new Object[]{"LargeFile",
-					"data/logSearch/logFile_large_input.log",
+					"test_data/logSearch/logFile_large_input.log",
 					"[234]",
-					"data/logSearch/logFile_large_actualOutput.txt",
-			"data/logSearch/logFile_large_expectedOutput.txt"});
+					"test_data/logSearch/logFile_large_actualOutput.txt",
+			"test_data/logSearch/logFile_large_expectedOutput.txt"});
 
 
 
@@ -121,7 +121,7 @@ public class LogFileSearchTest
 		@Test
 		public void testLogFileSearch_InvalidSearchWord() throws IOException
 		{
-			String filePath ="data/logSearch/logFile_verysmall_input.log";
+			String filePath ="test_data/logSearch/logFile_verysmall_input.log";
 			String searchWord = "   ";
 
 			try {
