@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestJarGeneration" default="run" basedir=".">
+
+	<property name="src" location="src" />
+	<property name="build.dir" value="build_test" />
+	<property name="SearchJar" location="${build.dir}/lib/search.jar" />
+
+
+	<target name="clean">
+		<echo message="Deleting directory : ${build.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="init">
+		<echo message="Setting up testing environment...." />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/data" />
+		<mkdir dir="${build.dir}/lib" />
+		<mkdir dir="${build.dir}/classes" />
+		<copy todir="${build.dir}/data">
+			<fileset dir="${basedir}/test_data" />
+		</copy>
+		<copy todir="${build.dir}/src/test">
+			<fileset dir="${basedir}/src/test" />
+		</copy>
+		
+		<copy file="${basedir}/runTest.xml" todir="${build.dir}"/>
+
+	</target>
+
+	<target name="download">
+		<echo message="Downloading dependant junit and jacoco jars......" />
+		<get src="https://download.jar-download.com/cache_jars/junit/junit/4.12/jar_files.zip" dest="${build.dir}/junit4.12.zip" />
+		<get src="https://download.jar-download.com/cache_jars/org.jacoco/org.jacoco.ant/0.8.8/jar_files.zip" dest="${build.dir}/jacoco.zip" />
+	</target>
+
+	<target name="unzip" description=" Unzip junit and jacoco">
+		<echo message="Unzipping downloaded zip files......" />
+		<unzip src="${build.dir}/junit4.12.zip" dest="${build.dir}/lib" />
+		<unzip src="${build.dir}/jacoco.zip" dest="${build.dir}/lib" />
+	</target>
+
+	<target name="compile">
+		<echo message="Compiling java files ...." />
+		<javac includeantruntime="false" srcdir="${src}" destdir="${build.dir}/classes" includes="com/**">
+			<classpath>
+				<fileset dir="${build.dir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jarCreation">
+		<echo message="Creating jar with compiled class files ...." />
+		<jar destfile="${SearchJar}">
+			<fileset dir="${build.dir}/classes" includes="**/*" />
+			<manifest>
+				<attribute name="Main-Class" value="com.advanced.driver.Client" />
+				<attribute name="Class-Path" value="${build.dir}/lib" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run">
+		<antcall target="clean" />
+		<antcall target="init" />
+		<antcall target="compile" />
+		<antcall target="jarCreation" />
+		<antcall target="download" />
+		<antcall target="unzip" />
+	</target>
+
+</project>

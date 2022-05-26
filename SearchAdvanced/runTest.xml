@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestJarGeneration" default="run" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
+
+	<property name="build.dir" value="." />
+	
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath>
+			<fileset dir="${build.dir}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="compile">
+		<echo message="Compiling test java files ...."/>
+		<mkdir dir="${build.dir}/classes" />
+
+		<javac includeantruntime="false" srcdir="${build.dir}/src" destdir="${build.dir}/classes">
+			<classpath>
+				<fileset dir="${build.dir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+
+	</target>
+
+
+	<target name="unittest">
+		<echo message="Unit testing started...."/>
+		<mkdir dir="${build.dir}/reports" />
+		<mkdir dir="${build.dir}/reports/raw" />
+		<mkdir dir="${build.dir}/reports/html/" />
+		<jacoco:coverage destfile="${build.dir}/jacoco.exec">
+			<junit printsummary="yes" haltonfailure="no" showoutput="yes" fork="true" forkmode="perTest" threads="3">
+				<classpath>
+					<pathelement location="${build.dir}/classes"/>
+					<fileset dir="${build.dir}/lib">
+						<include name="**/*.jar" />
+					</fileset>
+				</classpath>
+
+				<batchtest todir="${build.dir}/reports/raw">
+					<fileset dir="${build.dir}/classes" includes="**/*Test.class" />
+				</batchtest>
+				<formatter type="xml" />
+			</junit>
+		</jacoco:coverage>
+	</target>
+
+	<target name="test-reports">
+		<echo message="Test report generation started...."/>
+		<junitreport todir="${build.dir}/reports">
+			<fileset dir="${build.dir}/reports/raw/">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${build.dir}/reports/html/" />
+		</junitreport>
+	</target>
+
+	<target name="coverage-report">
+		<echo message="Coverage report generation started...."/>
+		<jacoco:report>
+
+			<executiondata>
+				<file file="${build.dir}/jacoco.exec" />
+			</executiondata>
+
+			<structure name="Search Advanced">
+				<classfiles>
+					<fileset dir="${build.dir}/classes/com/advanced/" />
+				</classfiles>
+			</structure>
+
+			<html destdir="${build.dir}/coverage-report" />
+
+		</jacoco:report>
+	</target>
+
+	<target name="run">
+		<antcall target="compile" />
+		<antcall target="unittest" />
+		<antcall target="test-reports" />
+		<antcall target="coverage-report" />
+	</target>
+
+</project>
